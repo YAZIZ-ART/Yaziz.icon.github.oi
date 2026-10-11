@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Kuesioner Usahatani</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-in">
+      <div class="topbar-row">
+        <strong class="topbar-title">Kuesioner Usahatani</strong>
+        <span id="prog-text" class="muted">0 dari 97 pertanyaan terisi</span>
+      </div>
+      <div id="prog" class="prog" role="progressbar" aria-label="Kemajuan pengisian" aria-valuemin="0" aria-valuenow="0" aria-valuemax="97">
+        <div id="prog-bar" class="prog-bar"></div>
+      </div>
+      <nav id="chips" class="chips" aria-label="Lompat ke bagian"></nav>
+    </div>
+  </div>
+
+  <main id="app" class="page">
+    <header class="head">
+      <h1 id="title">Kuesioner Usahatani</h1>
+      <p id="subtitle" class="sub"></p>
+      <p id="saved" class="muted small" aria-live="polite"></p>
+    </header>
+    <form id="form" novalidate autocomplete="off"></form>
+    <noscript><p>Halaman ini membutuhkan JavaScript agar dapat diisi.</p></noscript>
+  </main>
+
+  <dialog id="result">
+    <div id="result-body"></div>
+  </dialog>
+
+  <div id="print-view" aria-hidden="true"></div>
+
+  <script src="config.js"></script>
+  <script src="assets/questions.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
