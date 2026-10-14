@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kuesioner Usahatani - Manajemen Usahatani TBP</title>
+<style>
+:root{--latte:#E8D5BC;--foam:#F7EEDF;--card:#FCF7EE;--ink:#3B281B;--mocha:#6A4631;--caramel:#B07A43;--line:#DCC7AA;--auto:#F2DFBC;--soft:#85654D;--ok:#55743F;--warn:#A4502B;--btn:#6A4631;--btnt:#FBF3E6}
+@media (prefers-color-scheme:dark){:root{--latte:#2A1D15;--foam:#34251B;--card:#3B2A1F;--ink:#F3E6D3;--mocha:#D9B48A;--caramel:#D49A5E;--line:#5A4232;--auto:#5A4328;--soft:#C0A486;--ok:#9DBF86;--warn:#E49A78;--btn:#C98F54;--btnt:#2A1D15}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--latte);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--caramel);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:5;background:var(--foam);border-bottom:1px solid var(--line)}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0 6px}
+.bar h1{font-size:19px;line-height:1.2}
+.bar small{display:block;color:var(--soft);font-size:13px;font-family:system-ui,sans-serif;font-weight:400}
+.btn{border:0;background:var(--btn);color:var(--btnt);padding:10px 18px;border-radius:12px;font-weight:600;cursor:pointer}
+.btn.alt{background:transparent;color:var(--mocha);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.sm{padding:7px 12px;font-size:14px;border-radius:10px}
+.prog{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--caramel);transition:width .25s}
+.chipnav{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:thin}
+.chipnav button{flex:0 0 auto;min-width:34px;height:34px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-weight:600;color:var(--soft)}
+.chipnav button.done{border-color:var(--ok);color:var(--ok)}
+.chipnav button.cur{background:var(--btn);color:var(--btnt);border-color:var(--btn)}
+main{padding:20px 0 120px}
+.sec{display:none}
+.sec.on{display:block}
+.sech{margin:6px 0 4px;font-size:27px;line-height:1.2}
+.secd{color:var(--soft);margin:0 0 18px;font-size:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+.qh{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.qn{flex:0 0 auto;min-width:30px;height:30px;border-radius:50%;background:var(--btn);color:var(--btnt);display:grid;place-items:center;font-weight:700;font-size:14px;padding:0 6px}
+.qh h3{font-size:18px;line-height:1.35;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:600}
+.qb>*+*{margin-top:12px}
+.sl{font-size:14px;color:var(--soft);margin:0 0 6px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:var(--foam);cursor:pointer;font-size:15px;line-height:1.3}
+.chip input[type=radio],.chip input[type=checkbox]{accent-color:var(--caramel);margin:0;width:16px;height:16px}
+.chip:has(input:checked){background:var(--btn);color:var(--btnt);border-color:var(--btn)}
+.chip.tt{font-size:13px;border-style:dashed;color:var(--soft)}
+.chip.tt:has(input:checked){color:var(--btnt)}
+.xin{width:9.5em;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:3px 8px;font-size:14px}
+.clr{border:0;background:none;color:var(--soft);text-decoration:underline;cursor:pointer;font-size:13px;padding:4px}
+.inp{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--foam);border-radius:10px;padding:0 10px;min-height:42px}
+.inp input{flex:1;min-width:0;border:0;background:transparent;padding:9px 0;outline:0}
+.inp:focus-within{border-color:var(--caramel);box-shadow:0 0 0 2px color-mix(in srgb,var(--caramel) 35%,transparent)}
+.inp.auto{background:var(--auto);border-left:4px solid var(--caramel)}
+.pre,.suf{color:var(--soft);font-size:14px;white-space:nowrap}
+.rst{border:0;background:var(--caramel);color:var(--btnt);width:26px;height:26px;border-radius:8px;cursor:pointer;font-size:15px;line-height:1;flex:0 0 auto}
+select,textarea{width:100%;border:1px solid var(--line);background:var(--foam);border-radius:10px;padding:10px;min-height:42px}
+textarea{min-height:110px;resize:vertical}
+.fld .fl{display:block;font-size:13px;color:var(--soft);margin-bottom:4px}
+.grid{display:grid;gap:10px;grid-template-columns:1fr}
+.rows>*+*{margin-top:10px}
+.rc{border:1px solid var(--line);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--foam) 60%,var(--card))}
+.rt{font-weight:600;margin-bottom:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rt .inp{flex:1;min-width:160px}
+.calc{margin-top:8px;font-size:14px;color:var(--mocha);font-weight:600}
+.calc.bad{color:var(--warn)}
+.aid{border:1px dashed var(--caramel);border-radius:14px;padding:14px;margin:0 0 14px;background:var(--auto)}
+.aid h3{font-size:17px;margin-bottom:4px}
+.aid p{margin:0 0 10px;font-size:14px;color:var(--mocha)}
+.note{font-size:13px;color:var(--soft);margin:0 0 14px}
+.legend{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--soft);margin-bottom:16px;flex-wrap:wrap}
+.legend .inp{min-height:28px;padding:0 10px;font-size:13px}
+.intro p{margin:0 0 10px}
+.sum{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:15px}
+.sum .k{color:var(--soft)}
+.sum .v{text-align:right;font-weight:600}
+.sum .hr{grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0}
+.sum .big{font-size:18px}
+.foot{position:fixed;left:0;right:0;bottom:0;background:var(--foam);border-top:1px solid var(--line);padding:10px 0;z-index:5}
+.foot .wrap{display:flex;gap:10px;justify-content:space-between;align-items:center}
+.foot .st{font-size:13px;color:var(--soft);text-align:center;flex:1}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(680px,94vw);max-height:88vh;padding:0}
+dialog::backdrop{background:rgba(40,25,15,.55)}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card)}
+#pbody{padding:6px 16px 16px}
+#pbody h4{margin:16px 0 6px;font-size:17px}
+.pr{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.pr small{display:block;color:var(--soft);font-size:12px}
+.pr input{border:1px solid var(--line);background:var(--foam);border-radius:8px;padding:8px;text-align:right;width:100%}
+.drvmsg{margin-top:10px;font-size:14px;min-height:20px}
+.drvmsg.ok{color:var(--ok);font-weight:600}
+.drvmsg.bad{color:var(--warn);font-weight:600}
+.drvmsg a{color:var(--mocha);font-weight:700;margin-left:8px}
+#print-view{display:none}
+@media print{
+ @page{size:A4;margin:14mm}
+ html,body{background:#fff!important}
+ header.top,main,.foot,dialog{display:none!important}
+ #print-view{display:block;color:#000;font:10pt/1.35 Arial,Helvetica,sans-serif}
+ #print-view h1{font:700 15pt Arial,sans-serif;margin:0 0 2px}
+ #print-view .p-sub{margin:0 0 10px}
+ #print-view h2{font:700 11pt Arial,sans-serif;margin:14px 0 6px;padding-bottom:3px;border-bottom:1.5px solid #000;break-after:avoid}
+ #print-view h3{font:700 10pt Arial,sans-serif;margin:10px 0 4px;break-after:avoid}
+ #print-view table{width:100%;border-collapse:collapse;margin-bottom:8px}
+ #print-view th,#print-view td{padding:3px 5px;border:1px solid #888;text-align:left;vertical-align:top;font-size:9pt}
+ #print-view th{background:#eee}
+ #print-view .p-meta th{width:17%}
+ #print-view .p-meta td{width:33%}
+ #print-view .c-no{width:6%;text-align:center}
+ #print-view .p-qa td:nth-child(2){width:46%}
+ #print-view tr{break-inside:avoid}
+}
+@media(min-width:620px){.grid.g2{grid-template-columns:1fr 1fr}.grid.g3{grid-template-columns:repeat(3,1fr)}.sech{font-size:31px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="wrap">
+  <div class="bar">
+   <h1>Kuesioner Usahatani<small>Manajemen Usahatani, Team-Based Project (TBP)</small></h1>
+   <button class="btn alt sm" id="btnPrice" type="button">Harga acuan</button>
+  </div>
+  <div class="prog"><i id="progBar"></i></div>
+  <nav class="chipnav" id="chipnav" aria-label="Bagian kuesioner"></nav>
+ </div>
+</header>
+<main class="wrap" id="stage"></main>
+<div class="foot"><div class="wrap">
+ <button class="btn alt" id="btnBack" type="button">Kembali</button>
+ <div class="st" id="stat"></div>
+ <button class="btn" id="btnNext" type="button">Lanjut</button>
+</div></div>
+<dialog id="dlg">
+ <div class="dh"><h3>Harga acuan Bali / Tabanan</h3><button class="btn alt sm" id="dClose" type="button">Tutup</button></div>
+ <div id="pbody"></div>
+ <div style="padding:0 16px 16px"><button class="btn alt sm" id="dReset" type="button">Kembalikan semua ke harga awal</button></div>
+</dialog>
+<div id="print-view" aria-hidden="true"></div>
+<noscript>Halaman ini membutuhkan JavaScript.</noscript>
+
+<script>
+(()=>{
+'use strict';
+const KEY='tbp_kuesioner_usahatani_v1',YEAR=2026;
+/* Alamat Web App Google Apps Script (berakhiran /exec). Boleh dikosongkan:
+   alamatnya bisa ditempel sekali lewat halaman Ringkasan dan tersimpan di browser. */
+const ENDPOINT='';
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+
+/* ---------- Harga acuan (semua bisa diubah lewat tombol "Harga acuan") ---------- */
+const PL=[
+['t_cangkul','Alat (harga baru)','Cangkul','Rp per buah',90000,'perkiraan toko tani Bali'],
+['t_sabit','Alat (harga baru)','Sabit/parang/gunting pangkas','Rp per buah',75000,'perkiraan'],
+['t_semprot','Alat (harga baru)','Alat semprot punggung','Rp per unit',350000,'perkiraan'],
+['t_pompa','Alat (harga baru)','Pompa air/mesin','Rp per unit',1500000,'perkiraan'],
+['t_traktor','Alat (harga baru)','Traktor/mesin bajak/mesin potong rumput','Rp per unit',20000000,'harga traktor tangan; mesin potong rumput jauh lebih murah'],
+['t_angkut','Alat (harga baru)','Motor/pikap/gerobak angkut','Rp per unit',1500000,'harga gerobak; isi manual untuk motor/pikap'],
+['t_keranjang','Alat (harga baru)','Keranjang/ember/karung','Rp per set',100000,'perkiraan'],
+['l_cangkul','Alat (umur pakai)','Cangkul','tahun',3,''],
+['l_sabit','Alat (umur pakai)','Sabit/parang/gunting pangkas','tahun',3,''],
+['l_semprot','Alat (umur pakai)','Alat semprot punggung','tahun',4,''],
+['l_pompa','Alat (umur pakai)','Pompa air/mesin','tahun',5,''],
+['l_traktor','Alat (umur pakai)','Traktor/mesin','tahun',10,''],
+['l_angkut','Alat (umur pakai)','Motor/pikap/gerobak','tahun',5,''],
+['l_keranjang','Alat (umur pakai)','Keranjang/ember/karung','tahun',2,''],
+['bibit','Bibit, pupuk, obat','Bibit/benih padi','Rp per kg',15000,'perkiraan benih padi lokal'],
+['kandang_sub','Bibit, pupuk, obat','Pupuk organik bersubsidi','Rp per kg',640,'HET resmi, berlaku sejak 22 Okt 2025'],
+['kandang_non','Bibit, pupuk, obat','Pupuk kandang/kompos non-subsidi','Rp per kg',1000,'perkiraan'],
+['urea_sub','Bibit, pupuk, obat','Urea bersubsidi','Rp per kg',1800,'HET resmi, berlaku sejak 22 Okt 2025'],
+['urea_non','Bibit, pupuk, obat','Urea non-subsidi','Rp per kg',6000,'perkiraan'],
+['npk_sub','Bibit, pupuk, obat','NPK Phonska bersubsidi','Rp per kg',1840,'HET resmi, berlaku sejak 22 Okt 2025'],
+['npk_non','Bibit, pupuk, obat','NPK non-subsidi','Rp per kg',11000,'perkiraan'],
+['sp36','Bibit, pupuk, obat','SP-36/TSP','Rp per kg',6500,'perkiraan'],
+['cair','Bibit, pupuk, obat','Pupuk cair/organik','Rp per liter',40000,'perkiraan'],
+['hama','Bibit, pupuk, obat','Obat hama/penyakit','Rp per liter',90000,'perkiraan'],
+['rumput','Bibit, pupuk, obat','Obat rumput','Rp per liter',70000,'perkiraan'],
+['upah','Upah','Upah buruh tani','Rp per hari',100000,'UMK Tabanan 2026 Rp3.287.678 per bulan; upah tani biasanya lebih rendah, sesuaikan'],
+['a_gabah_merah','Harga hasil panen','Padi merah Jatiluwih (gabah)','Rp per kg',8500,'kisaran Rp7.000-10.000 (penelitian Unmas)'],
+['a_gabah_merah_lo','Harga hasil panen','Padi merah Jatiluwih: terendah','Rp per kg',7000,''],
+['a_gabah_merah_hi','Harga hasil panen','Padi merah Jatiluwih: tertinggi','Rp per kg',10000,''],
+['a_beras_merah','Harga hasil panen','Beras merah Jatiluwih','Rp per kg',20000,'kisaran Rp15.000-25.000'],
+['a_beras_merah_lo','Harga hasil panen','Beras merah: terendah','Rp per kg',15000,''],
+['a_beras_merah_hi','Harga hasil panen','Beras merah: tertinggi','Rp per kg',25000,''],
+['a_gabah_putih','Harga hasil panen','Gabah padi putih (GKP)','Rp per kg',6500,'mengacu HPP gabah; sesuaikan'],
+['a_gabah_putih_lo','Harga hasil panen','Gabah padi putih: terendah','Rp per kg',5500,''],
+['a_gabah_putih_hi','Harga hasil panen','Gabah padi putih: tertinggi','Rp per kg',7500,'']
+];
+const DEF={};PL.forEach(r=>DEF[r[0]]=r[4]);
+const ACU=[['gabah_merah','Padi merah Jatiluwih (gabah)'],['beras_merah','Beras merah Jatiluwih'],['gabah_putih','Gabah padi putih (GKP)'],['lain','Lainnya (isi harga sendiri)']];
+
+/* ---------- State ---------- */
+let S={v:{},man:{},pr:{},step:0,ep:'',sid:'',saved:''};
+try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x)S=Object.assign(S,x)}catch(e){}
+if(!S.sid)S.sid=uid();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const P=k=>S.pr[k]!=null?S.pr[k]:DEF[k];
+const UF={kg:1,kwintal:100,ton:1000};
+const fmt=n=>isFinite(n)?Math.round(n).toLocaleString('id-ID'):'';
+const r2=n=>Math.round(n*100)/100;
+const g=id=>{const x=parseFloat(S.v[id]);return isNaN(x)?0:x};
+const clean=(s,m)=>{s=String(s).trim();if(/^tt$/i.test(s))return'TT';s=s.replace(/[^\d.,]/g,'');return m?s.replace(/\./g,'').replace(',','.'):s.replace(',','.')};
+const $=s=>document.querySelector(s);
+
+function mk(tag,props,...kids){
+ const e=document.createElement(tag);
+ for(const k in (props||{})){const v=props[k];
+  if(k==='class')e.className=v;
+  else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);
+  else if(v===true)e.setAttribute(k,'');
+  else if(v!==false&&v!=null)e.setAttribute(k,v);}
+ for(const c of kids.flat(Infinity)){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(c));}
+ return e;
+}
+
+/* ---------- Registri ---------- */
+const IN={},AUTO={},AM={},WR={},RB={},CALC=[],CLR=[],QS=[],EL={},XO={},XS={},MON={};
+let CUR=null,CURX=null,SECI=0;
+const reg=(id,ex)=>{if(CURX)CURX.push(id);if(CUR&&!ex)CUR.push(id)};
+const calc=fn=>{const el=mk('span',{});CALC.push({el,fn});return el};
+
+function refresh(){
+ for(let pass=0;pass<2;pass++){
+  for(const id in AUTO){
+   if(S.man[id])continue;
+   let v;try{v=AUTO[id]()}catch(e){v=''}
+   v=(v===''||v==null||isNaN(v))?'':String(r2(v));
+   S.v[id]=v;
+   const inp=IN[id];
+   if(inp&&document.activeElement!==inp)inp.value=v===''?'':(AM[id]?fmt(+v):v);
+  }
+ }
+ for(const id in AUTO){
+  if(WR[id])WR[id].classList.toggle('auto',!S.man[id]&&S.v[id]!=='');
+  if(RB[id])RB[id].hidden=!S.man[id];
+ }
+ CLR.forEach(([id,b])=>{b.hidden=!S.v[id]});
+ CALC.forEach(c=>{const t=c.fn();if(typeof t==='object'){c.el.textContent=t.t;c.el.parentNode&&c.el.parentNode.classList.toggle('bad',!!t.bad)}else c.el.textContent=t});
+ progress();save();
+}
+
+/* ---------- Pembangun elemen ---------- */
+function input(id,o){
+ o=o||{};reg(id);
+ const inp=mk('input',{type:'text',inputmode:o.txt?'text':'decimal',autocomplete:'off',placeholder:o.ph||'','aria-label':o.al||id});
+ IN[id]=inp;
+ let v=S.v[id];if(v==null)v='';
+ inp.value=(o.m&&v!==''&&v!=='TT'&&!isNaN(v))?fmt(+v):String(v);
+ inp.addEventListener('input',()=>{S.v[id]=o.txt?inp.value:clean(inp.value,o.m);if(AUTO[id])S.man[id]=1;refresh()});
+ inp.addEventListener('blur',()=>{const x=S.v[id];if(o.m&&x!=null&&x!==''&&x!=='TT'&&!isNaN(x))inp.value=fmt(+x)});
+ const w=mk('div',{class:'inp'},o.pre?mk('span',{class:'pre'},o.pre):null,inp,o.u?mk('span',{class:'suf'},o.u):null);
+ w.dataset.id=id;EL[id]=w;if(o.m)MON[id]=1;
+ if(o.auto){
+  AUTO[id]=o.auto;AM[id]=!!o.m;WR[id]=w;
+  const b=mk('button',{type:'button',class:'rst',title:'Kembalikan ke nilai otomatis','aria-label':'Kembalikan ke nilai otomatis',onclick:()=>{delete S.man[id];refresh()}},'\u21BA');
+  b.hidden=!S.man[id];RB[id]=b;w.append(b);
+ }
+ return w;
+}
+function sel(id,opts,def){
+ reg(id,1);
+ const s=mk('select',{'aria-label':id});s.dataset.id=id;EL[id]=s;
+ opts.forEach(x=>{const a=Array.isArray(x)?x:[x,x];s.append(mk('option',{value:a[0]},a[1]))});
+ if(S.v[id]==null)S.v[id]=def!=null?def:(Array.isArray(opts[0])?opts[0][0]:opts[0]);
+ s.value=S.v[id];
+ s.addEventListener('change',()=>{S.v[id]=s.value;refresh()});
+ return s;
+}
+function radio(id,o,opt){
+ reg(id);opt=opt||{};
+ const wrap=mk('div',{class:'chips'});wrap.dataset.id=id;EL[id]=wrap;XO[id]=o.filter(x=>x.x).map(x=>x.x);
+ const items=o.concat(opt.tt===false?[]:[{tt:1}]);
+ items.forEach(it=>{
+  const val=it.tt?'TT':(it.x||it);
+  const r=mk('input',{type:'radio',name:'r_'+id,value:val});
+  r.checked=S.v[id]===val;
+  r.addEventListener('change',()=>{S.v[id]=val;refresh()});
+  const lab=mk('label',{class:'chip'+(it.tt?' tt':'')},r,mk('span',{},it.tt?'TT (tidak tahu)':(it.x?it.x+':':it)));
+  if(it.x){
+   const xi=id+'_x';XS[id+'|'+it.x]={s:it.s||'',rp:!!it.rp};
+   const t=mk('input',{type:'text',class:'xin',placeholder:'isi',inputmode:it.m?'decimal':'text','aria-label':it.x});
+   t.value=S.v[xi]||'';
+   t.addEventListener('input',()=>{S.v[xi]=it.m?clean(t.value,true):t.value;if(t.value){S.v[id]=val;r.checked=true}refresh()});
+   lab.append(t,it.s?mk('span',{},it.s):null);
+  }
+  wrap.append(lab);
+ });
+ const clr=mk('button',{type:'button',class:'clr',onclick:()=>{S.v[id]='';wrap.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);refresh()}},'hapus pilihan');
+ clr.hidden=!S.v[id];CLR.push([id,clr]);wrap.append(clr);
+ return wrap;
+}
+function check(id,o){
+ reg(id);
+ const wrap=mk('div',{class:'chips'});wrap.dataset.id=id;EL[id]=wrap;XO[id]=o.filter(x=>x.x).map(x=>x.x);
+ const cur=Array.isArray(S.v[id])?S.v[id]:[];
+ const boxes=[];
+ o.forEach(it=>{
+  const val=it.x||it;
+  const c=mk('input',{type:'checkbox',value:val});c.checked=cur.includes(val);boxes.push(c);
+  c.addEventListener('change',()=>{S.v[id]=boxes.filter(b=>b.checked).map(b=>b.value);refresh()});
+  const lab=mk('label',{class:'chip'},c,mk('span',{},it.x?it.x+':':it));
+  if(it.x){
+   const xi=id+'_x';
+   const t=mk('input',{type:'text',class:'xin',placeholder:'isi','aria-label':it.x});
+   t.value=S.v[xi]||'';
+   t.addEventListener('input',()=>{S.v[xi]=t.value;if(t.value&&!c.checked){c.checked=true;S.v[id]=boxes.filter(b=>b.checked).map(b=>b.value)}refresh()});
+   lab.append(t);
+  }
+  wrap.append(lab);
+ });
+ return wrap;
+}
+function area(id,ph){
+ reg(id);
+ const t=mk('textarea',{placeholder:ph||'','aria-label':id});t.dataset.id=id;EL[id]=t;
+ t.value=S.v[id]||'';
+ t.addEventListener('input',()=>{S.v[id]=t.value;refresh()});
+ return t;
+}
+const F=(l,n)=>mk('div',{class:'fld'},mk('span',{class:'fl'},l),n);
+const SUB=(l,n)=>mk('div',{class:'sub'},l?mk('div',{class:'sl'},l):null,n);
+const X=(x,s,m,rp)=>({x,s,m,rp});
+const Q=(n,t,fn)=>{
+ const ids=[],all=[];CUR=ids;CURX=all;const body=fn();CUR=null;CURX=null;
+ const el=mk('section',{class:'q',id:'q'+n},mk('div',{class:'qh'},mk('span',{class:'qn'},String(n)),mk('h3',{},t)),mk('div',{class:'qb'},body));
+ QS.push({s:SECI,ids,all,n,t,el});
+ return el;
+};
+
+/* ---------- Data baris ---------- */
+const TOOLS=[
+ {k:'cangkul',n:'Cangkul'},{k:'sabit',n:'Sabit/parang/gunting pangkas'},{k:'semprot',n:'Alat semprot (tangki punggung)'},
+ {k:'pompa',n:'Pompa air/mesin'},{k:'traktor',n:'Traktor/mesin bajak/mesin potong rumput'},
+ {k:'angkut',n:'Motor/pikap/gerobak angkut'},{k:'keranjang',n:'Keranjang/ember/karung'}
+];
+const JOBS=['Menyiapkan lahan','Menanam','Merawat (menyiangi rumput, memupuk, menyemprot)','Mengairi/menyiram','Memanen','Setelah panen (memilah, mengemas)'];
+const subMode=()=>({'Ya':1,'Sebagian':.5}[S.v.q24]!=null?{'Ya':1,'Sebagian':.5}[S.v.q24]:0);
+const sp=k=>{const m=subMode();return P(k+'_sub')*m+P(k+'_non')*(1-m)};
+const KG={kg:1,'sak (50 kg)':50,kwintal:100,ton:1000};
+const LT={liter:1,ml:.001};
+const IN35=[
+ {k:'bibit',n:'Bibit/benih',u:{kg:1,kwintal:100,ton:1000},d:'kg',pr:()=>P('bibit')},
+ {k:'kandang',n:'Pupuk kandang/kompos',u:{kg:1,'sak (25 kg)':25,kwintal:100,ton:1000},d:'kg',pr:()=>sp('kandang')},
+ {k:'urea',n:'Pupuk Urea',u:KG,d:'kg',pr:()=>sp('urea')},
+ {k:'npk',n:'Pupuk NPK/Phonska',u:KG,d:'kg',pr:()=>sp('npk')},
+ {k:'sp36',n:'Pupuk SP-36/TSP',u:KG,d:'kg',pr:()=>P('sp36')},
+ {k:'cair',n:'Pupuk cair/organik',u:LT,d:'liter',pr:()=>P('cair')},
+ {k:'hama',n:'Obat hama/penyakit',u:LT,d:'liter',pr:()=>P('hama')},
+ {k:'rumput',n:'Obat rumput',u:LT,d:'liter',pr:()=>P('rumput')},
+ {k:'lain',n:'Lainnya (ZA, KCl, kapur)',u:KG,d:'kg',pr:null,free:true}
+];
+const acuKey=()=>S.v.acuan||'gabah_merah';
+const acuP=()=>acuKey()==='lain'?'':P('a_'+acuKey());
+const kali=()=>{if(S.v.q18==='Lainnya')return g('q18_x')||1;const m=String(S.v.q18||'').match(/\d+/);return m?+m[0]:1};
+
+/* ---------- Tabel khusus ---------- */
+function q27(){
+ const box=mk('div',{class:'rows'});
+ JOBS.concat([null]).forEach((j,i)=>{
+  const p='q27_'+i+'_';
+  const any=()=>g(p+'ko')+g(p+'bo')>0;
+  const head=j?mk('div',{class:'rt'},j):mk('div',{class:'rt'},'Lainnya:',input(p+'n',{txt:1,ph:'nama pekerjaan'}));
+  const cal=mk('div',{class:'calc'},calc(()=>{
+   const jam=g(p+'jm')||8;
+   const hk=g(p+'ko')*g(p+'kh')*jam/8,hb=g(p+'bo')*g(p+'bh')*jam/8;
+   return 'HOK keluarga '+r2(hk)+', HOK dibayar '+r2(hb)+', upah dibayar Rp '+fmt(g(p+'bo')*g(p+'bh')*g(p+'up'));
+  }));
+  box.append(mk('div',{class:'rc'},head,mk('div',{class:'grid g3'},
+   F('Keluarga sendiri: orang',input(p+'ko',{u:'orang'})),
+   F('Keluarga sendiri: hari',input(p+'kh',{u:'hari'})),
+   F('Orang lain (dibayar): orang',input(p+'bo',{u:'orang'})),
+   F('Orang lain (dibayar): hari',input(p+'bh',{u:'hari'})),
+   F('Upah (Rp per hari)',input(p+'up',{m:1,pre:'Rp',auto:()=>any()?P('upah'):''})),
+   F('Jam kerja per hari',input(p+'jm',{u:'jam',auto:()=>any()?8:''}))
+  ),cal));
+ });
+ return box;
+}
+function q33(){
+ const box=mk('div',{class:'rows'});
+ TOOLS.concat([null]).forEach((t,i)=>{
+  const p='q33_'+i+'_';
+  const own=()=>(S.v[p+'ms']||'Milik sendiri')!=='Sewa';
+  const head=t?mk('div',{class:'rt'},t.n):mk('div',{class:'rt'},'Lainnya:',input(p+'n',{txt:1,ph:'nama alat'}));
+  box.append(mk('div',{class:'rc'},head,mk('div',{class:'grid g2'},
+   F('Jumlah',input(p+'j',{u:'buah'})),
+   F('Harga beli (Rp)',input(p+'h',{m:1,pre:'Rp',auto:()=>t&&own()&&g(p+'j')>0?g(p+'j')*P('t_'+t.k):''})),
+   F('Tahun beli',input(p+'y',{ph:'mis. 2023'})),
+   F('Tahan berapa tahun',input(p+'u',{u:'tahun',auto:()=>t&&own()&&g(p+'j')>0?P('l_'+t.k):''})),
+   F('Kalau dijual sekarang laku (Rp)',input(p+'n2',{m:1,pre:'Rp',auto:()=>{
+    const h=g(p+'h'),u=g(p+'u');if(!t||!own()||!h||!u)return'';
+    const age=g(p+'y')>1900?YEAR-g(p+'y'):null;
+    const f=age==null?0.5:Math.max(.1,1-age/u);
+    return Math.round(h*f/1000)*1000;}})),
+   F('Milik sendiri atau sewa',sel(p+'ms',['Milik sendiri','Sewa'])),
+   F('Biaya sewa atau perawatan (Rp per musim)',input(p+'b',{m:1,pre:'Rp',auto:()=>t&&own()&&g(p+'h')>0?Math.round(g(p+'h')*.05/1000)*1000:''}))
+  )));
+ });
+ return box;
+}
+function q35(){
+ const box=mk('div',{class:'rows'});
+ box.append(mk('div',{class:'calc'},calc(()=>{const m=subMode();const a=S.v.q24;
+  return 'Harga pupuk mengikuti jawaban no. 24: '+(a?(m===1?'bersubsidi':m===.5?'campuran subsidi dan non-subsidi':'non-subsidi'):'belum dijawab, dipakai harga non-subsidi')+'.'})));
+ IN35.forEach(r=>{
+  const p='q35_'+r.k+'_';
+  box.append(mk('div',{class:'rc'},mk('div',{class:'rt'},r.n),mk('div',{class:'grid g2'},
+   F('Nama/merek',input(p+'n',{txt:1,ph:'tulis nama atau merek'})),
+   F('Jumlah yang dipakai',input(p+'j')),
+   F('Satuan (kg, liter, dll)',sel(p+'s',Object.keys(r.u),r.d)),
+   F('Harga per satuan (Rp)',input(p+'h',{m:1,pre:'Rp',auto:r.pr?()=>g(p+'j')>0?r.pr()*r.u[S.v[p+'s']||r.d]:'':null})),
+   F('Asal (beli/sendiri/bantuan)',sel(p+'a',['Beli','Sendiri','Bantuan']))
+  ),mk('div',{class:'calc'},'Biaya: Rp ',calc(()=>fmt(g(p+'j')*g(p+'h'))))));
+ });
+ return box;
+}
+function q37(){
+ const box=mk('div',{class:'rows'});
+ ['Hasil utama','Hasil ukuran sedang/kecil atau hasil sampingan'].forEach((n,i)=>{
+  const p='q37_'+i+'_';
+  box.append(mk('div',{class:'rc'},mk('div',{class:'rt'},n),mk('div',{class:'grid g2'},
+   F('Hasil tiap kali panen',input(p+'j')),
+   F('Berapa kali panen',input(p+'k',{u:'kali'})),
+   F('Total satu musim',input(p+'t',{auto:()=>g(p+'j')>0&&g(p+'k')>0?g(p+'j')*g(p+'k'):''})),
+   F('Satuan (kg, kwintal, dll)',sel(p+'s',['kg','kwintal','ton']))
+  ),mk('div',{class:'calc'},'Setara ',calc(()=>{const kg=g(p+'t')*UF[S.v[p+'s']||'kg'];return fmt(kg)+' kg ('+r2(kg/1000)+' ton)'}))));
+ });
+ return box;
+}
+const U38=['Dijual','Dimakan sendiri','Disimpan untuk bibit','Dibagikan/diberikan ke orang lain','Rusak/susut'];
+function q38(){
+ const box=mk('div',{class:'rows'});
+ U38.forEach((n,i)=>{
+  const p='q38_'+i+'_';
+  box.append(mk('div',{class:'rc'},mk('div',{class:'rt'},n),mk('div',{class:'grid g2'},
+   F('Jumlah',input(p+'j')),F('Satuan',sel(p+'s',['kg','kwintal','ton'])))));
+ });
+ const tot37=()=>g('q37_0_t')*UF[S.v.q37_0_s||'kg']+g('q37_1_t')*UF[S.v.q37_1_s||'kg'];
+ box.append(mk('div',{class:'calc'},calc(()=>{
+  let s=0;U38.forEach((n,i)=>s+=g('q38_'+i+'_j')*UF[S.v['q38_'+i+'_s']||'kg']);
+  const t=tot37();
+  const bad=t>0&&s>0&&Math.abs(s-t)/t>.02;
+  return {t:'Jumlah pemakaian '+fmt(s)+' kg, total hasil panen '+fmt(t)+' kg'+(bad?'. Belum sama, periksa lagi.':''),bad};
+ })));
+ return box;
+}
+function q39(){
+ const box=mk('div',{class:'rows'});
+ ['Penjualan ke-1','Penjualan ke-2','Penjualan ke-3','Penjualan lainnya'].forEach((n,i)=>{
+  const p='q39_'+i+'_';
+  box.append(mk('div',{class:'rc'},mk('div',{class:'rt'},n),mk('div',{class:'grid g2'},
+   F('Bulan',input(p+'b',{txt:1,ph:'mis. Maret'})),
+   F('Jumlah dijual',input(p+'j')),
+   F('Satuan',sel(p+'s',['kg','kwintal','ton'])),
+   F('Harga per satuan (Rp)',input(p+'h',{m:1,pre:'Rp',auto:()=>g(p+'j')>0&&acuP()!==''?acuP()*UF[S.v[p+'s']||'kg']:''}))
+  ),mk('div',{class:'calc'},'Nilai penjualan: Rp ',calc(()=>fmt(g(p+'j')*g(p+'h'))))));
+ });
+ return box;
+}
+function acuanBox(){
+ return mk('div',{class:'aid'},mk('h3',{},'Harga acuan hasil panen'),
+  mk('p',{},'Pilih hasil yang dijual. Harga per kg dan satuan kg, kwintal, atau ton di pertanyaan 39 dan 43 terisi otomatis dari sini. Boleh diubah.'),
+  mk('div',{class:'grid g2'},
+   F('Hasil yang dijual',sel('acuan',ACU,'gabah_merah')),
+   F('Harga acuan per kg',input('acuan_p',{m:1,pre:'Rp',u:'per kg',auto:acuP}))));
+}
+function q43(){
+ const mkRow=(lab,pk,id)=>{
+  const sid=id+'_s';
+  return mk('div',{class:'grid g2'},
+   F(lab+' (Rp)',input(id,{m:1,pre:'Rp',auto:()=>acuKey()==='lain'?'':P('a_'+acuKey()+'_'+pk)*UF[S.v[sid]||'kg']})),
+   F('per',sel(sid,['kg','kwintal','ton'])));
+ };
+ return [mkRow('Tertinggi','hi','q43_hi'),mkRow('Terendah','lo','q43_lo')];
+}
+
+/* ---------- Bagian ---------- */
+const OPT_PCT=[X('Lainnya','%',1)];
+const RANGE_UPAH=[ 'Di bawah Rp 75.000','Rp 75.000\u2013100.000','Rp 100.000\u2013150.000',X('Di atas Rp 150.000, angka pasti (Rp)','',1,1)];
+const SECS=[
+{k:'A',t:'Karakteristik Petani',d:()=>[
+ Q(1,'Siapa nama Bapak/Ibu?',()=>input('q1',{txt:1,ph:'Nama petani'})),
+ Q(2,'Bapak/Ibu tinggal di mana?',()=>mk('div',{class:'grid'},F('Banjar/dusun',input('q2a',{txt:1})),F('Desa',input('q2b',{txt:1})),F('Nama desa wisata',input('q2c',{txt:1})))),
+ Q(3,'Jenis kelamin?',()=>radio('q3',['Laki-laki','Perempuan'])),
+ Q(4,'Umur Bapak/Ibu sekarang?',()=>[radio('q4',['Di bawah 30 tahun','30\u201339','40\u201349','50\u201359','60 tahun ke atas']),F('Umur pasti',input('q4x',{u:'tahun'}))]),
+ Q(5,'Apakah Bapak/Ibu sudah menikah?',()=>radio('q5',['Belum menikah','Menikah','Cerai','Duda/Janda (pasangan meninggal)',X('Lainnya')])),
+ Q(6,'Sekolah terakhir Bapak/Ibu apa?',()=>radio('q6',['Tidak sekolah','TK','SD','SMP','SMA/SMK','Diploma/Sarjana',X('Lainnya')])),
+ Q(7,'Sudah berapa tahun bertani?',()=>[radio('q7',['Kurang dari 5 tahun','5\u201310','11\u201320','21\u201330','Lebih dari 30 tahun']),F('Lama pasti',input('q7x',{u:'tahun'}))]),
+ Q(8,'Pekerjaan utama Bapak/Ibu apa, dan apakah ada pekerjaan lain?',()=>[SUB('Utama',radio('q8',['Bertani','Buruh tani','Berdagang','Pegawai (negeri/swasta)','Kerja di pariwisata',X('Lainnya')])),SUB('Pekerjaan lain',radio('q8b',['Tidak ada',X('Ada, yaitu')]))]),
+ Q(9,'Berapa orang anggota keluarga yang Bapak/Ibu tanggung (tinggal serumah)?',()=>radio('q9',['1','2','3','4','5',X('Lebih dari 5, yaitu','orang',1)])),
+ Q(10,'Apakah ikut kelompok tani/subak?',()=>radio('q10',[X('Ya, nama kelompok'),'Tidak']))
+]},
+{k:'B',t:'Lahan',d:()=>[
+ Q(11,'Berapa luas lahan yang Bapak/Ibu kerjakan, menurut statusnya?',()=>mk('div',{class:'grid g2'},F('Milik sendiri',input('q11a',{u:'are'})),F('Sewa',input('q11b',{u:'are'})),F('Bagi hasil',input('q11c',{u:'are'})),F('Lainnya',input('q11d',{u:'are'})))),
+ Q(12,'Jika lahan bagi hasil, berapa bagian untuk pemilik lahan?',()=>radio('q12',['10%','20%','30%','40%','50%',X('Lainnya','% dari hasil panen',1)])),
+ Q(13,'Berapa luas lahan yang benar-benar ditanami tanaman ini pada musim ini?',()=>input('q13',{u:'are'})),
+ Q(14,'Lahannya berupa apa?',()=>radio('q14',['Sawah','Tegalan/ladang','Kebun','Pekarangan',X('Lainnya')])),
+ Q(15,'Air untuk tanaman dari mana, dan apakah cukup selama masa tanam?',()=>[SUB('Sumber',check('q15',['Subak/saluran irigasi','Air hujan','Sumur/pompa',X('Lainnya')])),SUB('Kecukupan',radio('q15b',['Cukup','Kadang kurang','Sering kurang']))])
+]},
+{k:'C',t:'Tanaman dan Cara Bertani',d:()=>[
+ Q(16,'Tanaman apa yang ditanam, apa nama bibit/varietasnya, dan termasuk jenis apa?',()=>[F('Tanaman',input('q16a',{txt:1})),F('Nama bibit/varietas',input('q16b',{txt:1})),SUB('Jenis',radio('q16',['Musiman (sekali panen, mis. padi, sayur, cabai)','Tahunan (berbuah tiap tahun, mis. kopi, jeruk, manggis)',X('Lainnya')]))]),
+ Q(17,'Apakah tanaman ini ditanam sendiri atau dicampur dengan tanaman lain?',()=>[radio('q17',['Satu jenis tanaman saja',X('Dicampur dengan tanaman lain, yaitu')]),SUB('Jika dicampur, perkiraan bagian tanaman ini. Dari biaya',radio('q17b',['25%','50%','75%',X('Lainnya','%',1)])),SUB('Dari hasil',radio('q17c',['25%','50%','75%',X('Lainnya','%',1)]))]),
+ Q(18,'Berapa kali tanam dalam satu tahun?',()=>radio('q18',['1 kali','2 kali','3 kali','4 kali',X('Lainnya','kali',1)])),
+ Q(19,'Kapan mulai tanam dan kapan panen terakhir?',()=>mk('div',{class:'grid g2'},F('Tanam',input('q19a',{txt:1,ph:'mis. Januari 2026'})),F('Panen',input('q19b',{txt:1,ph:'mis. Mei 2026'})))),
+ Q(20,'Khusus tanaman tahunan: ada berapa pohon, berapa umurnya, dan berapa yang sudah berbuah?',()=>mk('div',{class:'grid g3'},F('Jumlah pohon',input('q20a',{u:'pohon'})),F('Umur',input('q20b',{u:'tahun'})),F('Yang berbuah',input('q20c',{u:'pohon'})))),
+ Q(21,'Bibit/benih didapat dari mana, dan apakah ada label resmi (bersertifikat)?',()=>[SUB('Asal',radio('q21',['Beli di toko tani','Dari penangkar/petani lain','Dibuat/disimpan sendiri','Bantuan',X('Lainnya')])),SUB('Bersertifikat',radio('q21b',['Ya','Tidak','Tidak tahu']))]),
+ Q(22,'Bagaimana cara mengolah tanah sebelum tanam?',()=>check('q22',['Dicangkul','Pakai traktor/mesin','Dibajak sapi','Tidak diolah',X('Lainnya')])),
+ Q(23,'Bagaimana cara memberi pupuk, dan berapa kali dalam satu musim?',()=>[check('q23',['Ditabur','Disiram/dikocor','Dibenamkan di tanah','Disemprot ke daun',X('Lainnya')]),SUB('Berapa kali',radio('q23b',['1 kali','2 kali','3 kali','4 kali',X('Lebih dari 4 kali')]))]),
+ Q(24,'Apakah memakai pupuk bersubsidi (pupuk murah dari pemerintah)?',()=>radio('q24',['Ya','Tidak','Sebagian'])),
+ Q(25,'Hama atau penyakit apa yang menyerang tanaman, dan seberapa parah?',()=>[F('Nama hama/penyakit',input('q25a',{txt:1})),radio('q25',['Tidak ada','Ringan','Sedang','Parah'])]),
+ Q(26,'Bagaimana cara mengatasi hama/penyakit?',()=>[check('q26',['Obat kimia','Obat alami','Diambil/dicabut dengan tangan','Dibiarkan',X('Lainnya')]),SUB('Disemprot per musim',radio('q26b',['Tidak pernah','1\u20132 kali','3\u20135 kali','6\u201310 kali','Lebih dari 10 kali']))])
+]},
+{k:'D',t:'Tenaga Kerja',d:()=>[
+ Q(27,'Pekerjaan apa saja yang dikerjakan, siapa yang mengerjakan, dan berapa hari?',()=>[mk('p',{class:'note'},'Upah dan jam kerja terisi otomatis begitu jumlah orang diisi. HOK dihitung dari orang, hari, dan jam kerja (8 jam = 1 HOK).'),q27()]),
+ Q(28,'Upah pekerja dibayar dengan cara apa? Jika borongan atau bawon, berapa bayarannya?',()=>[check('q28',['Harian','Borongan (satu pekerjaan dibayar sekaligus)','Bawon (dibayar dengan bagian hasil panen)','Gotong royong/saling bantu','Tidak ada pekerja yang dibayar',X('Lainnya')]),F('Borongan',input('q28b',{m:1,pre:'Rp'})),SUB('Bawon (bagian dari hasil)',radio('q28c',['10%','15%','20%','25%',X('Lainnya','%',1)]))]),
+ Q(29,'Kalau Bapak/Ibu menyewa orang untuk bekerja, berapa upah yang berlaku di sini untuk satu hari kerja?',()=>[SUB('Laki-laki',radio('q29a',RANGE_UPAH)),SUB('Perempuan',radio('q29b',RANGE_UPAH))])
+]},
+{k:'E',t:'Modal Usaha',d:()=>[
+ Q(30,'Berapa uang yang dikeluarkan untuk usahatani ini dalam satu musim, dan uang itu berasal dari mana?',()=>[SUB('Jumlah',radio('q30',['Di bawah Rp 1 juta','Rp 1\u20135 juta','Rp 5\u201310 juta','Rp 10\u201325 juta','Di atas Rp 25 juta'])),F('Angka pasti (jika tahu)',input('q30x',{m:1,pre:'Rp'})),SUB('Sumber',check('q30b',['Uang sendiri','Bank','Koperasi/LPD','KUR (kredit usaha rakyat)','Keluarga/teman','Pengumpul/tengkulak','Bantuan pemerintah',X('Lainnya')]))]),
+ Q(31,'Jika meminjam uang, berapa jumlahnya, berapa lama, dan berapa bunganya?',()=>[SUB('Jumlah',radio('q31',['Di bawah Rp 5 juta','Rp 5\u201310 juta','Rp 10\u201325 juta',X('Di atas Rp 25 juta, angka pasti (Rp)','',1,1)])),SUB('Lama',radio('q31b',['Kurang dari 6 bulan','6\u201312 bulan','13\u201324 bulan','Lebih dari 24 bulan'])),SUB('Bunga',radio('q31c',['0%','1%','2%','3%',X('Lainnya','%',1)])),SUB('Bunga per',radio('q31d',['bulan','tahun'],{tt:false}))]),
+ Q(32,'Apakah uangnya cukup untuk usahatani ini?',()=>radio('q32',['Cukup','Kadang kurang','Sering kurang']))
+]},
+{k:'F',t:'Alat dan Biaya Tetap',d:()=>[
+ Q(33,'Alat apa saja yang dipakai?',()=>[mk('p',{class:'note'},'Isi jumlah, maka harga beli, umur pakai, nilai jual sekarang, dan biaya perawatan terisi otomatis dari harga acuan Bali. Isi tahun beli supaya nilai jual sekarang lebih tepat.'),q33()]),
+ Q(34,'Berapa uang yang dibayar untuk lahan dan iuran?',()=>mk('div',{class:'rows'},
+  mk('div',{class:'grid g2'},F('Pajak lahan (PBB)',input('q34a',{m:1,pre:'Rp'})),F('PBB per',sel('q34a_p',['musim','tahun']))),
+  mk('div',{class:'grid g2'},F('Sewa lahan (jika lahan sewa)',input('q34b',{m:1,pre:'Rp'})),F('Sewa per',sel('q34b_p',['musim','tahun']))),
+  mk('div',{class:'grid g2'},F('Perkiraan sewa jika lahan ini disewakan (untuk lahan milik sendiri)',input('q34c',{m:1,pre:'Rp'})),F('Perkiraan sewa per',sel('q34c_p',['musim','tahun']))),
+  mk('div',{class:'grid g2'},F('Iuran subak/kelompok tani',input('q34d',{m:1,pre:'Rp'})),F('Iuran lain (banjar, desa adat, desa wisata)',input('q34e',{m:1,pre:'Rp'})))))
+]},
+{k:'G',t:'Biaya yang Dikeluarkan',d:()=>[
+ Q(35,'Apa saja yang dibeli atau dipakai untuk usahatani ini, dan berapa yang benar-benar dipakai dalam satu musim?',()=>[mk('p',{class:'note'},'Nama/merek diisi bebas dan tidak dihitung. Isi jumlah, maka harga per satuan muncul otomatis dan bisa diubah. Ganti satuan (mis. sak), harga ikut menyesuaikan.'),q35()]),
+ Q(36,'Berapa biaya lainnya?',()=>mk('div',{class:'grid g2'},F('Air/listrik',input('q36a',{m:1,pre:'Rp'})),F('Bahan bakar (bensin/solar)',input('q36b',{m:1,pre:'Rp'})),F('Plastik, tali, ajir (tiang penyangga), mulsa',input('q36c',{m:1,pre:'Rp'})),mk('div',{class:'fld'},mk('span',{class:'fl'},'Lainnya (yang belum tercatat)'),input('q36dn',{txt:1,ph:'nama biaya'}),mk('div',{style:'height:6px'}),input('q36d',{m:1,pre:'Rp'}))))
+]},
+{k:'H',t:'Hasil Panen, Penjualan, dan Pemasaran',d:()=>[
+ acuanBox(),
+ Q(37,'Berapa hasil panen selama satu musim?',()=>q37()),
+ Q(38,'Dari seluruh hasil panen tadi, berapa yang dijual, dimakan sendiri, disimpan untuk bibit, dibagikan, atau rusak?',()=>q38()),
+ Q(39,'Hasil yang dijual: berapa jumlah dan harganya pada setiap penjualan?',()=>q39()),
+ Q(40,'Hasil dijual kepada siapa?',()=>check('q40',['Pengumpul','Tengkulak','Pasar','Hotel/restoran','Wisatawan','Koperasi/kelompok tani','Pedagang besar','Langsung ke pembeli',X('Lainnya')])),
+ Q(41,'Hasil dijual dengan cara apa, dan bagaimana pembayaran dari pembeli?',()=>[SUB('Cara jual',radio('q41',['Ditimbang per kg/satuan','Borongan/tebasan (dijual sekaligus di kebun)',X('Lainnya')])),SUB('Pembayaran',radio('q41b',['Tunai','Dibayar belakangan','Dibayar di depan sebelum panen (ijon)',X('Lainnya')]))]),
+ Q(42,'Berapa biaya untuk menjual hasil selama satu musim?',()=>mk('div',{class:'grid'},F('Kemasan',input('q42a',{m:1,pre:'Rp'})),F('Ongkos angkut ke tempat jual',input('q42b',{m:1,pre:'Rp'})),F('Potongan/komisi/retribusi saat menjual',input('q42c',{m:1,pre:'Rp'})))),
+ Q(43,'Berapa harga jual tertinggi dan terendah dalam satu tahun?',()=>q43())
+]},
+{k:'I',t:'Penghasilan Keluarga',d:()=>{
+ const R5=['Tidak ada','Di bawah Rp 1 juta','Rp 1\u20133 juta','Rp 3\u20135 juta','Di atas Rp 5 juta'];
+ return [
+ Q(44,'Berapa perkiraan penghasilan keluarga per bulan, dari masing-masing sumber?',()=>[SUB('Dari usahatani ini',radio('q44a',R5)),SUB('Dari tanaman/usahatani lain',radio('q44b',R5)),SUB('Dari pekerjaan atau usaha lain (dagang, pariwisata, buruh, dll)',radio('q44c',R5))]),
+ Q(45,'Apakah hasil usahatani cukup untuk kebutuhan keluarga?',()=>radio('q45',['Lebih dari cukup','Cukup','Kurang']))];}},
+{k:'J',t:'Kelompok Tani dan Penyuluhan',d:()=>[
+ Q(46,'Seberapa sering bertemu penyuluh pertanian?',()=>radio('q46',['Sering','Kadang-kadang','Tidak pernah'])),
+ Q(47,'Apakah pernah ikut pelatihan dalam 3 tahun terakhir?',()=>radio('q47',[X('Pernah, tentang'),'Tidak'])),
+ Q(48,'Bantuan apa yang pernah diterima?',()=>check('q48',['Bibit','Pupuk','Alat','Uang/modal','Tidak pernah',X('Lainnya')]))
+]},
+{k:'K',t:'Teknologi dan Keselamatan Kerja',d:()=>[
+ Q(49,'Teknologi atau alat modern apa yang dipakai dalam bertani?',()=>check('q49',['Traktor/mesin','Pompa air/irigasi tetes','Mulsa plastik','Rumah tanam (greenhouse)','HP/aplikasi/internet','Tidak ada',X('Lainnya')])),
+ Q(50,'Apa yang dipakai saat menyemprot?',()=>check('q50',['Masker','Sarung tangan','Baju lengan panjang','Sepatu bot','Tidak memakai apa-apa',X('Lainnya')])),
+ Q(51,'Apakah ada keluhan setelah menyemprot?',()=>check('q51',['Tidak ada','Pusing','Mual','Gatal','Mudah lelah',X('Lainnya')]))
+]},
+{k:'L',t:'Kunjungan Wisatawan',d:()=>[
+ Q(52,'Apakah wisatawan yang datang ke kebun menambah penghasilan?',()=>[radio('q52',['Tidak ada wisatawan','Ada, tapi tidak menambah','Ya, menambah penghasilan']),SUB('Jika ya, sekitar',radio('q52b',['Di bawah Rp 250.000','Rp 250.000\u2013500.000','Rp 500.000\u20131 juta','Di atas Rp 1 juta per bulan']))])
+]},
+{k:'M',t:'Kesulitan dan Harapan',d:()=>{
+ const P5=['0%','10%','25%','50%','Lebih dari 50%'];
+ return [
+ Q(53,'Berapa perkiraan hasil yang hilang pada musim ini, dan apakah pernah gagal panen dalam 3 tahun terakhir?',()=>[SUB('Karena hama/penyakit',radio('q53a',P5)),SUB('Karena cuaca (kekeringan, banjir, angin)',radio('q53b',P5)),SUB('Gagal panen 3 tahun terakhir',radio('q53c',['Tidak',X('Pernah, penyebabnya')]))]),
+ Q(54,'Kejadian apa yang pernah dialami dalam 1 tahun terakhir?',()=>check('q54',['Hama/penyakit','Kekeringan','Banjir/hujan lebat','Harga jual turun','Pupuk mahal/langka','Upah naik','Uang/modal kurang','Air sulit','Bibit sulit didapat','Sulit menjual hasil',X('Lainnya')])),
+ Q(55,'Apa kesulitan terbesar dalam bertani, dan bantuan atau harapan apa yang paling dibutuhkan?',()=>area('q55','Tulis jawaban petani'))];}}
+];
+
+/* ---------- Ringkasan ---------- */
+function calcSummary(){
+ const K=kali();
+ const pm=(a,per)=>per==='tahun'?a/K:a;
+ let rev=0;for(let i=0;i<4;i++)rev+=g('q39_'+i+'_j')*g('q39_'+i+'_h');
+ let sapA=0,sapT=0;IN35.forEach(r=>{const t=g('q35_'+r.k+'_j')*g('q35_'+r.k+'_h');sapA+=t;if((S.v['q35_'+r.k+'_a']||'Beli')==='Beli')sapT+=t});
+ const lain=g('q36a')+g('q36b')+g('q36c')+g('q36d');
+ let upahB=0,upahK=0,hokK=0,hokB=0;
+ for(let i=0;i<=JOBS.length;i++){const p='q27_'+i+'_';const jam=g(p+'jm')||8;
+  const hk=g(p+'ko')*g(p+'kh')*jam/8,hb=g(p+'bo')*g(p+'bh')*jam/8;
+  hokK+=hk;hokB+=hb;upahK+=hk*g(p+'up');upahB+=g(p+'bo')*g(p+'bh')*g(p+'up');}
+ let peny=0,rawat=0;for(let i=0;i<=TOOLS.length;i++){const p='q33_'+i+'_';const u=g(p+'u');if(g(p+'h')&&u&&(S.v[p+'ms']||'Milik sendiri')!=='Sewa')peny+=g(p+'h')*.9/u;rawat+=g(p+'b')}
+ peny=peny/K;
+ const pbb=pm(g('q34a'),S.v.q34a_p),sewa=pm(g('q34b'),S.v.q34b_p),imp=g('q11b')>0&&!g('q11a')?0:pm(g('q34c'),S.v.q34c_p);
+ const iuran=g('q34d')+g('q34e');
+ const pasar=g('q42a')+g('q42b')+g('q42c');
+ const tunai=sapT+lain+upahB+rawat+pbb+sewa+iuran+pasar;
+ const dihit=(sapA-sapT)+upahK+peny+imp;
+ const total=tunai+dihit;
+ const luas=g('q13');
+ const kgTot=g('q37_0_t')*UF[S.v.q37_0_s||'kg'];
+ return {K,rev,sapT,sapA,lain,upahB,upahK,hokK,hokB,peny,rawat,pbb,sewa,imp,iuran,pasar,tunai,dihit,total,luas,kgTot};
+}
+function summaryNode(){
+ const {rev,sapT,sapA,lain,upahB,upahK,hokK,hokB,peny,rawat,pbb,sewa,imp,iuran,pasar,tunai,total,luas,kgTot}=calcSummary();
+ const row=(k,v,cls)=>[mk('div',{class:'k'},k),mk('div',{class:'v '+(cls||'')},v)];
+ const rp=n=>'Rp '+fmt(n);
+ return mk('div',{class:'sum'},
+  row('Penerimaan dari penjualan (no. 39)',rp(rev)),
+  mk('div',{class:'hr'}),
+  row('Bibit, pupuk, obat yang dibeli',rp(sapT)),
+  row('Biaya lain (no. 36)',rp(lain)),
+  row('Upah tenaga kerja dibayar',rp(upahB)),
+  row('Sewa/perawatan alat, PBB, sewa lahan, iuran',rp(rawat+pbb+sewa+iuran)),
+  row('Biaya pemasaran (no. 42)',rp(pasar)),
+  row('Total biaya tunai',rp(tunai),'big'),
+  mk('div',{class:'hr'}),
+  row('Input dari sendiri/bantuan',rp(sapA-sapT)),
+  row('Tenaga kerja keluarga ('+r2(hokK)+' HOK)',rp(upahK)),
+  row('Penyusutan alat per musim (perkiraan)',rp(peny)),
+  row('Sewa lahan milik sendiri (perkiraan)',rp(imp)),
+  row('Total biaya (tunai + diperhitungkan)',rp(total),'big'),
+  mk('div',{class:'hr'}),
+  row('Pendapatan atas biaya tunai',rp(rev-tunai),'big'),
+  row('Keuntungan atas total biaya',rp(rev-total),'big'),
+  row('R/C ratio',total>0?r2(rev/total):'-','big'),
+  luas>0?row('Hasil utama per are',r2(kgTot/luas)+' kg'):null,
+  luas>0?row('Total biaya per are',rp(total/luas)):null,
+  mk('div',{class:'hr'}),
+  row('HOK tenaga kerja dibayar',r2(hokB))
+ );
+}
+
+/* ---------- Layout bagian ---------- */
+const STEPS=[{k:'Awal',t:'Pembuka'}].concat(SECS.map(s=>({k:s.k,t:s.k+'. '+s.t}))).concat([{k:'Ringkasan',t:'Ringkasan dan Simpan'}]);
+const secEls=[];
+function buildIntro(){
+ SECI=-1;
+ const d=mk('div',{class:'sec'});
+ d.append(mk('h2',{class:'sech'},'Om Swastiastu'),mk('p',{class:'secd'},'Mata Kuliah Manajemen Usahatani, Team-Based Project (TBP)'));
+ d.append(mk('div',{class:'q intro'},
+  mk('p',{},'Perkenalkan, kami mahasiswa Program Studi Agribisnis, Fakultas Pertanian, Universitas Udayana.'),
+  mk('p',{},mk('b',{},'Alasan wawancara: '),'Wawancara ini bagian dari Team-Based Project (TBP) mata kuliah Manajemen Usahatani, untuk mengetahui biaya, hasil panen, pemasaran, dan pendapatan usahatani di desa wisata ini.'),
+  mk('p',{},mk('b',{},'Manfaat bagi Bapak/Ibu: '),'Bapak/Ibu mendapat gambaran biaya dan pendapatan usahatani sendiri, yang bisa dipakai sebagai bahan pertimbangan untuk meningkatkan hasil dan pengelolaan usahatani.'),
+  mk('p',{},mk('b',{},'Pembagian hasil: '),'Hasil olahan data akan dibagikan kembali kepada Bapak/Ibu dan pengelola desa wisata, tanpa menyebut nama responden.'),
+  mk('p',{},mk('b',{},'Persetujuan responden: '),'Data ini dipakai untuk tugas perkuliahan, dan nama Bapak/Ibu dijaga kerahasiaannya.')));
+ const ids=[];CUR=ids;const rc=radio('consent',['Bersedia','Tidak bersedia'],{tt:false});CUR=null;QS.push({s:-1,ids});
+ d.append(mk('div',{class:'q'},mk('div',{class:'qh'},mk('h3',{},'Bapak/Ibu bersedia atau tidak bersedia diwawancarai?')),rc));
+ d.append(mk('div',{class:'q intro'},mk('div',{class:'sl'},'Cara mengisi'),
+  mk('p',{},'Pilih jawaban yang paling mendekati, atau tulis jawabannya. Tulis satuannya (Rp, kg, are, hari). Jika tidak ada yang cocok, pilih "Lainnya" lalu tulis jawabannya. Jika petani tidak tahu atau lupa, pilih atau tulis "TT". Semua pertanyaan untuk satu musim tanam terakhir (tanaman musiman) atau satu musim panen (tanaman tahunan). Jika petani menanam lebih dari satu tanaman, isi kuesioner ini untuk satu tanaman utama.'),
+  mk('div',{class:'legend'},mk('div',{class:'inp auto'},'terisi otomatis'),mk('span',{},'Kolom berwarna latte terisi otomatis dari harga acuan Bali. Ketik angka lain untuk mengubah, tekan tombol \u21BA untuk kembali ke otomatis. Harga acuan bisa diatur lewat tombol "Harga acuan" di kanan atas.'))));
+ return d;
+}
+function buildAll(){
+ const st=$('#stage');
+ secEls.push(buildIntro());
+ SECS.forEach((s,i)=>{
+  SECI=i;
+  const d=mk('div',{class:'sec'});
+  d.append(mk('h2',{class:'sech'},s.k+'. '+s.t),mk('p',{class:'secd'},mk('span',{id:'cnt'+i},'')));
+  s.d().forEach(n=>d.append(n));
+  secEls.push(d);
+ });
+ const last=mk('div',{class:'sec',id:'secSum'});
+ secEls.push(last);
+ secEls.forEach(e=>st.append(e));
+ const nav=$('#chipnav');
+ STEPS.forEach((s,i)=>nav.append(mk('button',{type:'button',title:s.t,'aria-label':s.t,onclick:()=>go(i)},s.k)));
+}
+function filled(id){
+ const v=S.v[id];
+ if(Array.isArray(v))return v.length>0;
+ if(v==null||v==='')return false;
+ if(AUTO[id]&&!S.man[id])return false;
+ return true;
+}
+function stat(si){const qs=QS.filter(q=>q.s===si);const n=qs.filter(q=>q.ids.some(filled)).length;return[n,qs.length]}
+function progress(){
+ const nav=$('#chipnav');if(!nav||!nav.children.length)return;
+ let n=0,t=0;
+ for(let i=0;i<SECS.length+1;i++){
+  const si=i-1;const[a,b]=stat(si);n+=a;t+=b;
+  nav.children[i].classList.toggle('done',b>0&&a===b);
+  if(i>0){const c=$('#cnt'+(i-1));if(c)c.textContent=a+' dari '+b+' pertanyaan terisi'}
+ }
+ $('#progBar').style.width=(t?Math.round(n/t*100):0)+'%';
+ $('#stat').textContent=S.step>0&&S.step<STEPS.length-1?stat(S.step-1).join(' dari ')+' terisi':'';
+}
+function go(i){
+ S.step=Math.max(0,Math.min(STEPS.length-1,i));
+ secEls.forEach((e,j)=>e.classList.toggle('on',j===S.step));
+ [...$('#chipnav').children].forEach((b,j)=>b.classList.toggle('cur',j===S.step));
+ $('#btnBack').disabled=S.step===0;
+ const nx=$('#btnNext');
+ nx.hidden=S.step===STEPS.length-1;
+ if(S.step<STEPS.length-1){const nk=STEPS[S.step+1].k;nx.textContent='Lanjut ke '+(nk.length===1?'bagian '+nk:nk)}
+ if(S.step===STEPS.length-1)renderSummary();
+ const cur=$('#chipnav').children[S.step];if(cur&&cur.scrollIntoView)cur.scrollIntoView({inline:'center',block:'nearest'});
+ window.scrollTo({top:0});
+ refresh();
+}
+function download(name,type,text){
+ const a=mk('a',{href:URL.createObjectURL(new Blob([text],{type})),download:name});
+ document.body.append(a);a.click();a.remove();
+}
+/* ---------- Ekspor: laporan, PDF, Google Drive ---------- */
+const short=t=>t.length>60?t.slice(0,57)+'...':t;
+function ansOf(id){
+ const v=S.v[id];
+ if(v==null||v==='')return '';
+ const xt=S.v[id+'_x'];
+ if(Array.isArray(v))return v.length?v.map(x=>(XO[id]||[]).includes(x)&&xt?x+': '+xt:x).join('; '):'';
+ if(v==='TT')return 'TT';
+ if((XO[id]||[]).includes(v)&&xt){const f=XS[id+'|'+v]||{};return v+': '+(f.rp&&!isNaN(xt)?'Rp '+fmt(+xt):xt)+(f.s?' '+f.s:'')}
+ if(MON[id]&&!isNaN(v))return 'Rp '+fmt(+v);
+ return String(v);
+}
+function rawOf(id){
+ const v=S.v[id];
+ if(v!=null&&v!==''&&!Array.isArray(v)&&v!=='TT'&&IN[id]&&!isNaN(v))return Number(v);
+ return ansOf(id);
+}
+function labelOf(id){
+ const el=EL[id];if(!el)return '';
+ const rc=el.closest('.rc'),fld=el.closest('.fld'),sub=el.closest('.sub');
+ let a='';
+ if(rc){const rt=rc.querySelector('.rt');a=rt?rt.firstChild.textContent.replace(/:$/,''):''}
+ let b='';
+ if(el.closest('.rt'))b='nama';
+ else if(fld)b=fld.querySelector('.fl').textContent;
+ else if(sub)b=sub.querySelector('.sl').textContent;
+ return [a,b].filter(Boolean).join(' - ');
+}
+function tableOf(q){
+ const rcs=[...q.el.querySelectorAll('.rc')];
+ const ctl=f=>{const c=f.querySelector('[data-id]');return c?c.dataset.id:null};
+ const heads=[...rcs[0].querySelectorAll('.fld')].map(f=>f.querySelector('.fl').textContent);
+ const rows=rcs.map(rc=>{
+  const rt=rc.querySelector('.rt');let title=rt.firstChild.textContent.replace(/:$/,'');
+  const nm=rt.querySelector('[data-id]');
+  if(nm){const v=ansOf(nm.dataset.id);title=title+(v?': '+v:'')}
+  const ids=[...rc.querySelectorAll('.fld')].map(ctl);
+  return {title,ids,txt:ids.map(i=>i?ansOf(i):''),raw:ids.map(i=>i?rawOf(i):''),has:ids.concat(nm?[nm.dataset.id]:[]).some(i=>i&&IN[i]&&filled(i))};
+ });
+ return {headers:['Item'].concat(heads),rows};
+}
+const SHEETS={27:'T27 Tenaga Kerja',33:'T33 Alat',35:'T35 Biaya Input',37:'T37 Hasil Panen',38:'T38 Pemakaian Hasil',39:'T39 Penjualan'};
+function localDate(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function buildPayload(){
+ const sm=calcSummary(),rp=n=>'Rp '+fmt(n);
+ const tanggal=localDate();
+ const nama=String(S.v.q1||'').trim();
+ const kode=(nama.replace(/[^\w ]+/g,'').trim().replace(/\s+/g,'_').slice(0,20)||'Responden')+'-'+S.sid.slice(-5).toUpperCase();
+ const komoditas=String(S.v.q16a||'').trim();
+ const flat=[['ID Kiriman',S.sid],['Waktu kirim',new Date().toISOString()],['Kode responden',kode],['Tanggal',tanggal],['Komoditas',komoditas],['Persetujuan responden',ansOf('consent')]];
+ const used={},tables=[],blocks=[];
+ SECS.forEach((sec,si)=>{
+  const items=[];
+  QS.filter(q=>q.s===si).forEach(q=>{
+   if(q.el.querySelector('.rc')){
+    const t=tableOf(q);
+    items.push({no:q.n,q:q.t,table:{headers:t.headers,rows:t.rows.map(r=>[r.title].concat(r.txt.map(x=>x||'\u2014')))}});
+    const rows=t.rows.filter(r=>r.has).map(r=>[r.title].concat(r.raw));
+    if(rows.length&&SHEETS[q.n])tables.push({sheet:SHEETS[q.n],headers:t.headers,rows});
+   }else{
+    const multi=q.all.length>1;
+    const lines=[];
+    q.all.forEach(id=>{
+     const l=labelOf(id);
+     let h=q.n+'. '+(multi&&l?l:short(q.t));
+     if(used[h])h+=' ('+id+')';
+     used[h]=1;
+     flat.push([h,rawOf(id)]);
+     const v=ansOf(id);
+     if(v)lines.push(multi&&l?l+': '+v:v);
+    });
+    items.push({no:q.n,q:q.t,a:lines.join('\n')});
+   }
+  });
+  blocks.push({id:sec.k,title:sec.t,items});
+ });
+ flat.push(['Ringkasan: Penerimaan (Rp)',Math.round(sm.rev)],['Ringkasan: Total biaya tunai (Rp)',Math.round(sm.tunai)],['Ringkasan: Total biaya (Rp)',Math.round(sm.total)],
+  ['Ringkasan: Pendapatan atas biaya tunai (Rp)',Math.round(sm.rev-sm.tunai)],['Ringkasan: Keuntungan (Rp)',Math.round(sm.rev-sm.total)],
+  ['Ringkasan: R/C ratio',sm.total>0?r2(sm.rev/sm.total):''],['Ringkasan: HOK keluarga',r2(sm.hokK)],['Ringkasan: HOK dibayar',r2(sm.hokB)]);
+ blocks.push({id:'N',title:'Ringkasan perhitungan (perkiraan)',items:[
+  ['Penerimaan dari penjualan',rp(sm.rev)],['Total biaya tunai',rp(sm.tunai)],['Total biaya (tunai + diperhitungkan)',rp(sm.total)],
+  ['Pendapatan atas biaya tunai',rp(sm.rev-sm.tunai)],['Keuntungan atas total biaya',rp(sm.rev-sm.total)],['R/C ratio',sm.total>0?String(r2(sm.rev/sm.total)):'-'],
+  ['HOK tenaga kerja keluarga',String(r2(sm.hokK))],['HOK tenaga kerja dibayar',String(r2(sm.hokB))]
+ ].map(x=>({no:'-',q:x[0],a:x[1]}))});
+ const meta=[{l:'Nama petani',v:nama},{l:'Tanggal',v:tanggal},{l:'Banjar/dusun',v:S.v.q2a},{l:'Desa',v:S.v.q2b},{l:'Desa wisata',v:S.v.q2c},{l:'Tanaman utama',v:komoditas},{l:'Persetujuan',v:ansOf('consent')},{l:'Kode',v:kode}];
+ const report={id:S.sid,title:'Kuesioner Usahatani',subtitle:'Mata Kuliah Manajemen Usahatani, Team-Based Project (TBP)',meta,blocks,note:''};
+ return {app:'kuesioner-usahatani-v1',id:S.sid,submittedAt:new Date().toISOString(),kode,komoditas,tanggal,flat,tables,report,raw:S.v};
+}
+function renderReport(rep,box){
+ box.replaceChildren();
+ box.append(mk('h1',{},rep.title.toUpperCase()),mk('p',{class:'p-sub'},rep.subtitle));
+ const mt=mk('table',{class:'p-meta'});
+ for(let i=0;i<rep.meta.length;i+=2){const a=rep.meta[i],b=rep.meta[i+1];
+  mt.append(mk('tr',{},mk('th',{},a.l),mk('td',{},a.v||'\u2014'),mk('th',{},b?b.l:''),mk('td',{},b?(b.v||'\u2014'):'')));}
+ box.append(mt);
+ rep.blocks.forEach(b=>{
+  box.append(mk('h2',{},b.id+'. '+b.title.toUpperCase()));
+  let rows=[];
+  const flush=()=>{if(!rows.length)return;
+   box.append(mk('table',{class:'p-qa'},mk('thead',{},mk('tr',{},mk('th',{class:'c-no'},'No'),mk('th',{},'Pertanyaan'),mk('th',{},'Jawaban'))),mk('tbody',{},rows)));rows=[]};
+  b.items.forEach(it=>{
+   if(it.table){flush();
+    box.append(mk('h3',{},it.no+'. '+it.q),mk('table',{class:'p-grid'},
+     mk('thead',{},mk('tr',{},it.table.headers.map(x=>mk('th',{},x)))),
+     mk('tbody',{},it.table.rows.map(r=>mk('tr',{},r.map(x=>mk('td',{},x)))))));
+   }else{
+    const ans=mk('td',{});
+    (it.a||'\u2014').split('\n').forEach((ln,i)=>{if(i)ans.append(mk('br'));ans.append(ln)});
+    rows.push(mk('tr',{},mk('td',{class:'c-no'},String(it.no)),mk('td',{},it.q),ans));
+   }
+  });
+  flush();
+ });
+}
+function printCopy(){
+ const p=buildPayload();
+ renderReport(p.report,$('#print-view'));
+ const old=document.title;
+ document.title='Kuesioner_'+p.kode;
+ window.print();
+ setTimeout(()=>{document.title=old},500);
+}
+function driveSay(msg,text,cls,links){
+ msg.className='drvmsg '+(cls||'');msg.textContent=text;
+ (links||[]).forEach(l=>msg.append(' ',mk('a',{href:l[1],target:'_blank',rel:'noopener'},l[0])));
+}
+const driveUrl=()=>(ENDPOINT||S.ep||'').trim();
+const driveOk=u=>/^https:\/\/script\.google\.com\/.+\/exec/.test(u);
+async function testDrive(msg){
+ const u=driveUrl();
+ if(!driveOk(u)){driveSay(msg,'Tempel dulu alamat Web App (berakhiran /exec).','bad');return}
+ driveSay(msg,'Menguji koneksi...');
+ try{const r=await fetch(u);const d=await r.json();driveSay(msg,d.ok?'Terhubung ke Google Drive. '+(d.message||''):'Alamat dikenali tetapi server menolak.',d.ok?'ok':'bad')}
+ catch(e){driveSay(msg,'Tidak dapat terhubung. Pastikan deployment diatur "Siapa saja" dan alamatnya berakhiran /exec.','bad')}
+}
+async function sendDrive(btn,msg){
+ const u=driveUrl();
+ if(!driveOk(u)){driveSay(msg,'Tempel dulu alamat Web App (berakhiran /exec) di kolom di bawah.','bad');return}
+ if(S.v.consent==='Tidak bersedia'&&!confirm('Responden menjawab tidak bersedia. Tetap simpan?'))return;
+ if(!String(S.v.q1||'').trim()&&!confirm('Nama petani (no. 1) belum diisi. Tetap simpan?'))return;
+ if(S.saved===S.sid){
+  if(!confirm('Responden ini sudah pernah tersimpan. Simpan lagi sebagai data baru?'))return;
+  S.sid=uid();S.saved='';
+ }
+ const payload=buildPayload();
+ btn.disabled=true;btn.textContent='Menyimpan...';
+ driveSay(msg,'Mengirim ke Google Drive, mohon tunggu.');
+ const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),90000);
+ try{
+  const res=await fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:ctl.signal});
+  const data=await res.json();
+  if(!data.ok)throw new Error(data.error||'Server menolak data.');
+  S.saved=payload.id;save();
+  driveSay(msg,data.duplicate?'Data ini sudah tersimpan sebelumnya, tidak digandakan.':'Tersimpan di Google Drive.','ok',
+   [data.pdfUrl?['Buka PDF',data.pdfUrl]:null,data.sheetUrl?['Buka rekap',data.sheetUrl]:null].filter(Boolean));
+ }catch(err){
+  driveSay(msg,(err.name==='AbortError'?'Waktu habis. Periksa sinyal internet lalu coba lagi.':(err.message||'Tidak dapat terhubung ke server.'))+' Isian tidak hilang: coba kirim lagi, atau pakai Cetak / simpan PDF.','bad');
+ }finally{clearTimeout(timer);btn.disabled=false;btn.textContent='Simpan ke Google Drive'}
+}
+
+function renderSummary(){
+ const box=$('#secSum');box.innerHTML='';
+ box.append(mk('h2',{class:'sech'},'Ringkasan dan Simpan'),mk('p',{class:'secd'},'Perkiraan awal dari data yang sudah diisi. Periksa kembali sebelum dipakai.'));
+ box.append(mk('div',{class:'q'},summaryNode()));
+ const msg=mk('div',{class:'drvmsg',role:'status','aria-live':'polite'});
+ const btnDrive=mk('button',{type:'button',class:'btn'},'Simpan ke Google Drive');
+ btnDrive.addEventListener('click',()=>sendDrive(btnDrive,msg));
+ const ep=mk('input',{type:'url',inputmode:'url',placeholder:'https://script.google.com/macros/s/.../exec','aria-label':'Alamat Web App Google Apps Script'});
+ ep.value=ENDPOINT||S.ep||'';ep.disabled=!!ENDPOINT;
+ ep.addEventListener('input',()=>{S.ep=ep.value.trim();save()});
+ box.append(mk('div',{class:'q'},
+  mk('div',{class:'sl'},'Cetak dan simpan'),
+  mk('div',{class:'chips'},mk('button',{type:'button',class:'btn alt',onclick:printCopy},'Cetak / simpan PDF'),btnDrive),
+  msg,
+  mk('div',{style:'margin-top:12px'},
+   F('Alamat Web App Google Drive (tempel sekali saja, berakhiran /exec)',mk('div',{class:'inp'},ep)),
+   mk('div',{class:'chips',style:'margin-top:8px'},mk('button',{type:'button',class:'btn alt sm',onclick:()=>testDrive(msg)},'Tes koneksi'))),
+  mk('p',{class:'note',style:'margin-top:10px'},'Yang tersimpan di Drive: lembar jawaban PDF, cadangan JSON, dan baris baru di Rekap Kuesioner Usahatani. Di layar cetak, pilih "Simpan sebagai PDF".')));
+ const stamp=()=>{const d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')};
+ const name=(S.v.q1||'responden').toString().replace(/[^\w]+/g,'_');
+ box.append(mk('div',{class:'q'},mk('div',{class:'sl'},'Cadangan di perangkat'),
+  mk('div',{class:'chips'},
+   mk('button',{type:'button',class:'btn sm alt',onclick:()=>download('kuesioner_'+name+'_'+stamp()+'.json','application/json',JSON.stringify(S.v,null,1))},'Unduh JSON'),
+   mk('button',{type:'button',class:'btn sm alt',onclick:()=>{
+    const rows=[['kode','jawaban']];
+    Object.keys(S.v).forEach(k=>{const v=S.v[k];rows.push([k,Array.isArray(v)?v.join('; '):v])});
+    download('kuesioner_'+name+'_'+stamp()+'.csv','text/csv;charset=utf-8','\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n'));
+   }},'Unduh CSV'),
+   mk('button',{type:'button',class:'btn sm alt',onclick:()=>{
+    if(confirm('Mulai responden baru? Jawaban yang sekarang akan dihapus dari layar ini. Pastikan sudah tersimpan ke Drive atau diunduh.')){S.v={};S.man={};S.step=0;S.sid='';S.saved='';save();location.reload()}
+   }},'Responden baru'))));
+ box.append(mk('div',{class:'q intro'},mk('p',{},'Terima kasih banyak atas waktu, kesediaan, dan jawaban Bapak/Ibu. Semoga hasil wawancara ini bermanfaat bagi kita bersama.'),mk('p',{},'Om Santhi, Santhi, Santhi, Om.')));
+}
+
+/* ---------- Dialog harga acuan ---------- */
+function openPrices(){
+ const body=$('#pbody');body.innerHTML='';let grp='';
+ PL.forEach(r=>{
+  const k=r[0],money=!/tahun/.test(r[3]);
+  if(r[1]!==grp){grp=r[1];body.append(mk('h4',{},grp))}
+  const inp=mk('input',{type:'text',inputmode:'decimal','aria-label':r[2]});
+  inp.value=money?fmt(P(k)):P(k);
+  inp.addEventListener('input',()=>{const v=parseFloat(clean(inp.value,money));if(isNaN(v))delete S.pr[k];else S.pr[k]=v;refresh()});
+  inp.addEventListener('blur',()=>{inp.value=money?fmt(P(k)):P(k)});
+  body.append(mk('div',{class:'pr'},mk('div',{},mk('b',{},r[2]),mk('small',{},r[3]+(r[5]?', '+r[5]:''))),inp));
+ });
+ $('#dlg').showModal();
+}
+
+/* ---------- Mulai ---------- */
+buildAll();
+$('#btnNext').addEventListener('click',()=>go(S.step+1));
+$('#btnBack').addEventListener('click',()=>go(S.step-1));
+$('#btnPrice').addEventListener('click',openPrices);
+$('#dClose').addEventListener('click',()=>$('#dlg').close());
+$('#dReset').addEventListener('click',()=>{S.pr={};refresh();openPrices()});
+go(S.step||0);
+})();
+</script>
+</body>
+  </html>
